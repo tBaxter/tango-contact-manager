@@ -7,7 +7,7 @@ Provides contact forms and any other sort of user submission form you might want
 
     pip install git+https://github.com/tBaxter/tango-contact-manager.git
 
+tango_shared is a dependency. It will be installed. 
 
 ## Usage:
-Add 'contact_manager' to your installed apps, then run syncdb or migrate.
-
+Add 'contact_manager' and 'tango_shared' to your installed apps, then run syncdb or migrate.

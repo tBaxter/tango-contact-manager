@@ -1,5 +1,4 @@
 {% extends "contact/base.html" %}
-{% load markup %}
 
 {% block title %}{{ message.sender_name }}{% endblock title %}
 
@@ -14,7 +13,7 @@
     </p>
   {% endif %}
 
-  {{ message.body|markdown }}
+  {{ message.body_formatted }}
 
   {% include 'includes/generic_pagination.html' %}
 

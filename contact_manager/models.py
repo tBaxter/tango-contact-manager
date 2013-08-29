@@ -3,8 +3,9 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import truncatewords
 
-UserModel = getattr(settings, "AUTH_USER_MODEL", "auth.User")
+from tango_shared.utils.sanetize import sanetize_text
 
+UserModel = getattr(settings, "AUTH_USER_MODEL", "auth.User")
 
 EMAIL_CHOICES = (
     ('1', 'Send to all recipients'),
@@ -179,6 +180,7 @@ class Contact(models.Model):
         blank=True
     )
     body = models.TextField()
+    body_formatted = models.TextField(blank=True, editable=False)
     photo = models.ImageField(
         upload_to='img/contact',
         blank=True,
@@ -225,6 +227,13 @@ class Contact(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('contact_detail', [str(self.id)])
+
+    def save(self, *args, **kwargs):
+        """
+        Create formatted version of body text.
+        """
+        self.body_formatted = sanetize_text(self.body)
+        super(Contact, self).save()
 
     def is_from_site(self):
         return settings.SITE_ID == self.site.id

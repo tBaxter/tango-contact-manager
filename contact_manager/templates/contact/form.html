@@ -1,5 +1,4 @@
 {% extends 'contact/base.html' %}
-{% load markup %}
 
 {% block title %}{{ controller.name }}{% endblock %}
 
@@ -18,7 +17,7 @@
 {% endblock %}
 
 {% block aside %}
-  {{ controller.pre_form_msg|markdown }}
+  {{ controller.pre_form_msg }}
 {% endblock %}
 
 {% block extrascript %}

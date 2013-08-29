@@ -4,7 +4,7 @@ from setuptools import find_packages
 
 setup(
     name='tango-contact-manager',
-    version='0.3',
+    version='0.4',
     author=u'Tim Baxter',
     author_email='mail.baxter@gmail.com',
     url='https://github.com/tBaxter/tango-contact-manager',
@@ -15,5 +15,7 @@ setup(
     long_description=open('README.md').read(),
     packages=find_packages(),
     zip_safe=False,
-    include_package_data=True
+    include_package_data=True,
+    dependency_links = ['http://github.com/tBaxter/tango-shared-core/tarball/master#egg=tango-shared-0.5']
+
 )
