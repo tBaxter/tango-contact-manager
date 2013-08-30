@@ -153,7 +153,7 @@ def build_contact(request, slug=""):
             if controller.email_options == '2':  # Create selectable list from recipients
                 try:
                     to = [UserModel.objects.get(username = form.cleaned_data['to']).email]
-                except:
+                except Exception:
                     to = [form.cleaned_data['to']]
             if controller.email_options == '1':
                 to = [r.email for r in controller.recipients.all()]
