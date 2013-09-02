@@ -139,11 +139,11 @@ def build_contact(request, slug=""):
             elif 'subject' in form_data:
                 subject = form_data['subject']
             else:
-                subject = "%s message from %s" % (controller.name, form_data['sender_name'])
+                subject = "{} message from {}".format(controller.name, form_data['sender_name'])
 
-            body = "%s \n\n %s" % (form_data['body'], form_data['sender_name'])
+            body = "{} \n\n {}".format(form_data['body'], form_data['sender_name'])
             if controller.request_contact_info:
-                body += "\nAddress: %s \nCity: %s \nState: %s \nPhone: %s" % (
+                body += "\nAddress: {} \nCity: {} \nState: {} \nPhone: {}".format(
                     form_data['contact_address'],
                     form_data['contact_city'],
                     form_data['contact_state'],

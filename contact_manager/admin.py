@@ -8,8 +8,8 @@ def publish_selected(modeladmin, request, queryset):
     if rows_updated == 1:
         message_bit = "One item was"
     else:
-        message_bit = "%s items were" % rows_updated
-    modeladmin.message_user(request, "%s published." % message_bit)
+        message_bit = "{} items were".format(rows_updated)
+    modeladmin.message_user(request, "{} published.".format(message_bit))
 publish_selected.short_description = "Publish"
 
 
@@ -18,8 +18,8 @@ def unpublish_selected(modeladmin, request, queryset):
     if rows_updated == 1:
         message_bit = "One item was"
     else:
-        message_bit = "%s items were" % rows_updated
-    modeladmin.message_user(request, "%s unpublished." % message_bit)
+        message_bit = "{} items were".format(rows_updated)
+    modeladmin.message_user(request, "{} unpublished.".format(message_bit))
 unpublish_selected.short_description = "Unpublish"
 
 

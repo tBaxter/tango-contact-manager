@@ -25,7 +25,7 @@ class Recipient(models.Model):
         ordering = ['name']
 
     def __unicode__(self):
-        return '%s: %s' % (self.name, self.email)
+        return '{}: {}'.format(self.name, self.email)
 
     def found_on_form(self):
         """
@@ -161,7 +161,7 @@ class ContactFormController(models.Model):
         verbose_name = "contact form controller"
 
     def __unicode__(self):
-        return "%s" % (self.name)
+        return self.name
 
     @models.permalink
     def get_absolute_url(self):
@@ -222,7 +222,7 @@ class Contact(models.Model):
         verbose_name_plural = "submitted content"
 
     def __unicode__(self):
-        return "%s" % (self.subject)
+        return self.subject
 
     @models.permalink
     def get_absolute_url(self):
