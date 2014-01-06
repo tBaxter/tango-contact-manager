@@ -1,5 +1,6 @@
 include LICENSE README.md CHANGES.md
 recursive-include contact_manager *.html
 recursive-include contact_manager *.json
+recursive-include contact_manager *.md
 
 recursive-include docs *.txt
