@@ -86,7 +86,7 @@ def simple_contact(request, username=""):
             subject,
             form.cleaned_data['body'],
             form.cleaned_data['sender_email'],
-            recipients
+            [recipients]
         )
         mail.send()
         if 'send_a_copy' in form.cleaned_data:
