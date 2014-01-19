@@ -89,12 +89,12 @@ def simple_contact(request, username=""):
             [recipients]
         )
         mail.send()
-        if 'send_a_copy' in form.cleaned_data:
+        if 'send_a_copy' in request.POST:
             mail = EmailMessage(
                 subject = subject,
                 body = form.cleaned_data['body'],
                 from_email = form.cleaned_data['sender_email'],
-                to = form.cleaned_data['sender_email']
+                to = list(form.cleaned_data['sender_email'])
             )
             mail.send()
         return HttpResponseRedirect(success_url)
