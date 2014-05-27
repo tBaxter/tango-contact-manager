@@ -22,3 +22,5 @@ or
 Add 'contact_manager' and 'tango_shared' to your installed apps, then run syncdb or migrate.
 
 tango_shared is a dependency. It will be installed for you.
+
+Site emails will be sent to superusers or anyone specified in a DEFAULT_CONTACTS setting. That setting should be a list of emails.
