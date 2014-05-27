@@ -68,22 +68,32 @@ def simple_contact(request, username=""):
     site = Site.objects.get_current()
     form = ContactForm(request.POST or None)
 
+    # if we know, fill in the user name and email
+    if request.user.is_authenticated():
+        form.fields['sender_name'].widget.attrs['readonly'] = 'true'
+        form.fields['sender_name'].initial = request.user.username
+        form.fields['sender_email'].widget.attrs['readonly'] = 'true'
+        form.fields['sender_email'].initial = request.user.email
+
     if username:
         member = get_object_or_404(UserModel, username=username)
         recipients = [member.email,]
     else:
         # site contact form.
-        # Use first of list from settings.DEFAULT_CONTACTS
-        # or all superusers
+        # Use first of settings.DEFAULT_CONTACTS or all superusers
         member = None
         recipients = getattr(settings, "DEFAULT_CONTACTS", None)
         if not recipients:
             recipients = UserModel.objects.filter(is_superuser=True).values_list('email', flat=True)
             warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
     if form.is_valid():
-        subject = "A " + site.domain + " message from " + form.cleaned_data['sender_name']
+        subject = "A %s message from %s " % (site.name, form.cleaned_data['sender_name'])
         body = form.cleaned_data['body']
         sender_email = form.cleaned_data['sender_email']
+
+        if 'send_a_copy' in request.POST:
+            recipients.append(sender_email)
+
         mail = EmailMessage(
             subject = subject,
             body = body,
@@ -91,14 +101,6 @@ def simple_contact(request, username=""):
             to = recipients
         )
         mail.send()
-        if 'send_a_copy' in request.POST:
-            mail = EmailMessage(
-                subject = subject,
-                body = body,
-                from_email = sender_email,
-                to = list(sender_email)
-            )
-            mail.send()
         return HttpResponseRedirect(success_url)
     return render(request, 'contact/simple_form.html', {
         'form': form,

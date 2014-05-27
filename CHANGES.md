@@ -1,3 +1,6 @@
+### 0.6
+* Refactored simple contact form
+
 ### 0.5.3
 * Fixed bug in simple_contact_form
 

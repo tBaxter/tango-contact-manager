@@ -4,7 +4,7 @@ from setuptools import find_packages
 
 setup(
     name='tango-contact-manager',
-    version='0.5.4',
+    version='0.6',
     author=u'Tim Baxter',
     author_email='mail.baxter@gmail.com',
     url='https://github.com/tBaxter/tango-contact-manager',
