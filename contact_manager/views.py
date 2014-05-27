@@ -82,19 +82,21 @@ def simple_contact(request, username=""):
             warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
     if form.is_valid():
         subject = "A " + site.domain + " message from " + form.cleaned_data['sender_name']
+        body = form.cleaned_data['body']
+        sender_email = form.cleaned_data['sender_email']
         mail = EmailMessage(
-            subject,
-            form.cleaned_data['body'],
-            form.cleaned_data['sender_email'],
-            recipients
+            subject = subject,
+            body = body,
+            from_email = sender_email,
+            to = list(recipients)
         )
         mail.send()
         if 'send_a_copy' in request.POST:
             mail = EmailMessage(
                 subject = subject,
-                body = form.cleaned_data['body'],
-                from_email = form.cleaned_data['sender_email'],
-                to = list(form.cleaned_data['sender_email'])
+                body = body,
+                from_email = sender_email,
+                to = list(sender_email,)
             )
             mail.send()
         return HttpResponseRedirect(success_url)
