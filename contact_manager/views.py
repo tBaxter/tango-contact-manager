@@ -88,7 +88,7 @@ def simple_contact(request, username=""):
             subject = subject,
             body = body,
             from_email = sender_email,
-            to = list(recipients)
+            to = recipients
         )
         mail.send()
         if 'send_a_copy' in request.POST:
@@ -96,7 +96,7 @@ def simple_contact(request, username=""):
                 subject = subject,
                 body = body,
                 from_email = sender_email,
-                to = list(sender_email,)
+                to = list(sender_email)
             )
             mail.send()
         return HttpResponseRedirect(success_url)
