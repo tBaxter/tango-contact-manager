@@ -70,7 +70,7 @@ def simple_contact(request, username=""):
 
     if username:
         member = get_object_or_404(UserModel, username=username)
-        recipients = list(member.email)
+        recipients = [member.email,]
     else:
         # site contact form.
         # Use first of list from settings.DEFAULT_CONTACTS
@@ -86,7 +86,7 @@ def simple_contact(request, username=""):
             subject,
             form.cleaned_data['body'],
             form.cleaned_data['sender_email'],
-            list(recipients)
+            recipients
         )
         mail.send()
         if 'send_a_copy' in request.POST:
