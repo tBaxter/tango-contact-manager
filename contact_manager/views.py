@@ -86,8 +86,10 @@ def simple_contact(request, username=""):
         if not recipients:
             recipients = UserModel.objects.filter(is_superuser=True).values_list('email', flat=True)
             warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
+    
+
     if form.is_valid():
-        subject = "A %s message from %s " % (site.name, form.cleaned_data['sender_name'])
+        subject = "A message from {} on {}".format(form.cleaned_data['sender_name'], site.name)
         body = form.cleaned_data['body']
         sender_email = form.cleaned_data['sender_email']
 

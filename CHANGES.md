@@ -1,3 +1,6 @@
+### 0.6.1
+* Minor subject line change
+
 ### 0.6
 * Refactored simple contact form
 
