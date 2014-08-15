@@ -12,7 +12,6 @@ from django.views.generic import ListView, TemplateView, DetailView
 from .forms import ContactForm
 from .models import Contact, ContactFormController
 
-UserModel = get_user_model()
 success_url = reverse_lazy('contact_done')
 
 
@@ -67,13 +66,20 @@ def simple_contact(request, username=""):
     """
     site = Site.objects.get_current()
     form = ContactForm(request.POST or None)
+    UserModel = get_user_model()
 
     # if we know, fill in the user name and email
     if request.user.is_authenticated():
+        # first, resolve username for tango and non-tango sites
+        try:
+            name = request.user.display_name
+        except AttributeError:
+            name = request.user.username
         form.fields['sender_name'].widget.attrs['readonly'] = 'true'
-        form.fields['sender_name'].initial = request.user.username
+        form.fields['sender_name'].initial = name
         form.fields['sender_email'].widget.attrs['readonly'] = 'true'
         form.fields['sender_email'].initial = request.user.email
+
 
     if username:
         member = get_object_or_404(UserModel, username=username)
@@ -86,7 +92,6 @@ def simple_contact(request, username=""):
         if not recipients:
             recipients = UserModel.objects.filter(is_superuser=True).values_list('email', flat=True)
             warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
-    
 
     if form.is_valid():
         subject = "A message from {} on {}".format(form.cleaned_data['sender_name'], site.name)
@@ -111,7 +116,6 @@ def simple_contact(request, username=""):
     })
 
 
-
 def build_contact(request, slug=""):
     """
     Builds appropriate contact form based on options
@@ -119,13 +123,19 @@ def build_contact(request, slug=""):
     """
     controller = get_object_or_404(ContactFormController, slug=slug)
     site = Site.objects.get_current()
+    UserModel = get_user_model()
     user = request.user
     form = ContactForm(request.POST or None, request.FILES or None, controller=controller)
 
     # if we know, fill in the user name and email
     if user.is_authenticated():
+        # first, resolve username for tango and non-tango sites
+        try:
+            name = user.display_name
+        except AttributeError:
+            name = user.username
         form.fields['sender_name'].widget.attrs['readonly'] = 'true'
-        form.fields['sender_name'].initial = user.username
+        form.fields['sender_name'].initial = name
         form.fields['sender_email'].widget.attrs['readonly'] = 'true'
         form.fields['sender_email'].initial = user.email
 
@@ -162,10 +172,14 @@ def build_contact(request, slug=""):
                     to = [UserModel.objects.get(username = form.cleaned_data['to']).email]
                 except Exception:
                     to = [form.cleaned_data['to']]
+
             if controller.email_options == '1':
                 to = [r.email for r in controller.recipients.all()]
                 for r in controller.other_recipients.all():
                     to.append(r.email)
+
+            if 'send_a_copy' in form.cleaned_data:
+                to.append(form.cleaned_data['sender_email'])
 
             mail = EmailMessage(
                 subject = subject,
@@ -177,14 +191,6 @@ def build_contact(request, slug=""):
                 photo = request.FILES['photo']
                 mail.attach(photo.name, photo.read(), photo.content_type)
             mail.send()
-            if 'send_a_copy' in form.cleaned_data:
-                mail = EmailMessage(
-                    subject = subject,
-                    body = body,
-                    from_email = form.cleaned_data['sender_email'],
-                    to = form.cleaned_data['sender_email']
-                )
-                mail.send()
         return render(request, 'success_url', {'controller': controller})
 
     return render(request, 'contact/form.html', {
