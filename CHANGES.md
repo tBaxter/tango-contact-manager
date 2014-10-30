@@ -1,3 +1,6 @@
+### 0.6.3
+* Incremented shared core version.
+
 ### 0.6.2
 * Minor refactoring and cleanup
 * use user.display_name if available
