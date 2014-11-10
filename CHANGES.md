@@ -1,4 +1,7 @@
 ### 0.6.3
+* Start with recipients as an empty list
+
+### 0.6.3
 * Incremented shared core version.
 
 ### 0.6.2

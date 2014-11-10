@@ -67,6 +67,7 @@ def simple_contact(request, username=""):
     site = Site.objects.get_current()
     form = ContactForm(request.POST or None)
     UserModel = get_user_model()
+    recipients = []
 
     # if we know, fill in the user name and email
     if request.user.is_authenticated():
