@@ -1,4 +1,16 @@
-### 0.6.3
+### 0.6.8
+* Trying explicit logging key.
+
+### 0.6.7
+* Added debugging logging.
+
+### 0.6.6
+* Fixed bug calling cleaned_data prematurely.
+
+### 0.6.5
+* Very minor formatting changes
+
+### 0.6.4
 * Start with recipients as an empty list
 
 ### 0.6.3

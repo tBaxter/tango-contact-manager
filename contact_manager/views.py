@@ -1,3 +1,4 @@
+import logging
 import warnings
 
 from django.conf import settings
@@ -13,6 +14,9 @@ from .forms import ContactForm
 from .models import Contact, ContactFormController
 
 success_url = reverse_lazy('contact_done')
+
+# Get an instance of a logger
+logger = logging.getLogger('contact_manager')
 
 
 class ContactList(ListView):
@@ -68,6 +72,9 @@ def simple_contact(request, username=""):
     form = ContactForm(request.POST or None)
     UserModel = get_user_model()
     recipients = []
+    site_form = False
+
+    logger.debug('Recipients should be empty: %s' % recipients)
 
     # if we know, fill in the user name and email
     if request.user.is_authenticated():
@@ -81,26 +88,36 @@ def simple_contact(request, username=""):
         form.fields['sender_email'].widget.attrs['readonly'] = 'true'
         form.fields['sender_email'].initial = request.user.email
 
-
     if username:
         member = get_object_or_404(UserModel, username=username)
         recipients = [member.email,]
+        logger.debug('Recipients should be a single user: %s' % recipients)
+
     else:
         # site contact form.
         # Use first of settings.DEFAULT_CONTACTS or all superusers
+        site_form = True
         member = None
         recipients = getattr(settings, "DEFAULT_CONTACTS", None)
+        logger.debug('Recipients should be match DEFAULT_CONTACTS: %s' % recipients)
+
         if not recipients:
             recipients = UserModel.objects.filter(is_superuser=True).values_list('email', flat=True)
             warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
+            logger.debug('Recipients should be superusers: %s' % recipients)
 
     if form.is_valid():
-        subject = "A message from {} on {}".format(form.cleaned_data['sender_name'], site.name)
+        if site_form:
+            subject = "A {} contact form submission from {}".format(site.name, form.cleaned_data['sender_name'])
+        else:
+            subject = "A message from {} on {}".format(form.cleaned_data['sender_name'], site.name)
         body = form.cleaned_data['body']
+
         sender_email = form.cleaned_data['sender_email']
 
         if 'send_a_copy' in request.POST:
             recipients.append(sender_email)
+            logger.debug('Recipients should be match prior + sender email: %s' % recipients)
 
         mail = EmailMessage(
             subject = subject,
