@@ -8,7 +8,7 @@ UserModel = get_user_model()
 
 
 class TestContactViews(TestCase):
-    fixtures = ['authtestdata.json', 'contact_form.json']
+    fixtures = ['users.json', 'contact_form.json']
 
     def setUp(self):
         self.user = UserModel.objects.all()[0]
@@ -104,7 +104,7 @@ class TestContactViews(TestCase):
 
     def test_contact_builder_authenticated(self):
         contact_form_slug = ContactFormController.objects.get(id=1).slug
-        self.client.login(username=self.user.username, password='password')
+        self.client.login(username=self.user.username, password='test')
         response = self.client.get(reverse('contact_form_builder', args=[contact_form_slug, ]))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context['user'].is_authenticated())
