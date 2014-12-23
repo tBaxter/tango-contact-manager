@@ -2,9 +2,12 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+with open('docs/requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name='tango-contact-manager',
-    version='0.6.8',
+    version='0.7.0',
     author=u'Tim Baxter',
     author_email='mail.baxter@gmail.com',
     url='https://github.com/tBaxter/tango-contact-manager',
@@ -13,9 +16,10 @@ setup(
         Create user submission forms on the fly, straight from the Django admin.
         """,
     long_description=open('README.md').read(),
-    packages=find_packages(),
     zip_safe=False,
+    packages=find_packages(),
     include_package_data=True,
+    install_requires=required,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
