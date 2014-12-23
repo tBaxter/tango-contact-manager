@@ -30,6 +30,7 @@ class ContactForm(forms.ModelForm):
 
             # Cast self.fields out of an OrderedDict
             # so we can insert new fields.
+            # We're forcing list for py3.
             insertable_fields = list(self.fields.items())
 
             if controller.send_emails:

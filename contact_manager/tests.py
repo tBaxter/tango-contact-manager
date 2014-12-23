@@ -24,7 +24,7 @@ class TestContactViews(TestCase):
         self.assertTrue('form' in response.context)
         self.assertTrue('site' in response.context)
         form_fields = response.context['form'].fields
-        self.assertEquals(form_fields.keys(), ['sender_name', 'sender_email', 'body', 'send_a_copy', 'contact_address', 'contact_city', 'contact_state', 'contact_phone'])
+        self.assertEquals(list(form_fields.keys()), ['sender_name', 'sender_email', 'body', 'send_a_copy', 'contact_address', 'contact_city', 'contact_state', 'contact_phone'])
         # because this is a simple form these fields should be hidden:
         hidden_fields = [k.name for k in response.context['form'].hidden_fields()]
         self.assertEquals(hidden_fields, ['contact_address', 'contact_city', 'contact_state', 'contact_phone'])
