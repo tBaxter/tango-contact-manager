@@ -30,7 +30,7 @@ class ContactForm(forms.ModelForm):
 
             # Cast self.fields out of an OrderedDict
             # so we can insert new fields.
-            insertable_fields = self.fields.items()
+            insertable_fields = list(self.fields.items())
 
             if controller.send_emails:
                 # build recipient_list from staff recipients and other recipients
