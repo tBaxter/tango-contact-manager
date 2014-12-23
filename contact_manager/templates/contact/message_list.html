@@ -1,5 +1,5 @@
 {% extends "contact/base.html" %}
-{% load cache typogrify_tags comments %}
+{% load cache %}
 
 {% block bodyid %}messagelist{% endblock %}
 
@@ -22,9 +22,9 @@
               {% if message.contact_city or message.contact_state %}
                 <b class="city">
                   {{ message.contact_city }}
-                  {% if message.contact_city and message.contact_state %},{% endif %} 
+                  {% if message.contact_city and message.contact_state %},{% endif %}
                   {{ message.contact_state }}
-                </b> &ndash; 
+                </b> &ndash;
               {% endif %}
               <q>{{ message.body|truncatewords:"32" }}</q>
             </p>
