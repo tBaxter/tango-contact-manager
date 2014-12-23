@@ -16,3 +16,5 @@ tango_contact_manager.egg-info/top_level.txt
 dist/tango-contact-manager-0.5.tar.gz
 
 *.gz
+
+tango_contact_manager.egg-info/requires.txt

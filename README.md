@@ -5,6 +5,8 @@ Tango Contact Manager
 
 Provides contact forms and any other sort of user submission form you might want. You can create new forms on the fly, straight from the admin.
 
+It has been tested for Python 2 and 3.
+
 ## Key features
 * Simple contact forms or complex user-submission forms -- it's your call
 * Create new forms on the fly through the Django admin
