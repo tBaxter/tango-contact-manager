@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -9,7 +8,7 @@ UserModel = get_user_model()
 
 
 class TestContactViews(TestCase):
-    fixtures = ['users.json', 'contact_form.json']
+    fixtures = ['authtestdata.json', 'contact_form.json']
 
     def setUp(self):
         self.user = UserModel.objects.all()[0]
