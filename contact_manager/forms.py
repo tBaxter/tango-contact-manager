@@ -1,4 +1,6 @@
 
+from collections import OrderedDict
+
 from django import forms
 
 from .models import Contact
@@ -6,7 +8,7 @@ from .models import Contact
 
 class ContactForm(forms.ModelForm):
     """
-    Builds either base contact form 
+    Builds either base contact form
     or more sophisticated form if a contact form controller is used.
     """
     required_css_class = 'required'
@@ -26,6 +28,10 @@ class ContactForm(forms.ModelForm):
             self.fields['sender_email'].label = "Your e-mail address"
             self.fields['body'].label = "Your message"
 
+            # Cast self.fields out of an OrderedDict
+            # so we can insert new fields.
+            insertable_fields = self.fields.items()
+
             if controller.send_emails:
                 # build recipient_list from staff recipients and other recipients
                 to_choices = [(r.username, r.get_full_name()) for r in controller.recipients.all()]
@@ -33,13 +39,16 @@ class ContactForm(forms.ModelForm):
                     to_choices.append((r.name, r.email))
                 # if 'Create selectable list of recipients' is selected, add to form
                 if controller.email_options == '2':
-                    self.fields.insert(0, 'to', forms.CharField())
-                    self.fields['to'] = forms.ChoiceField(choices=to_choices)
+                    insertable_fields.insert(0, 'to', forms.ChoiceField(choices=to_choices))
 
             if controller.ask_for_subject:
-                self.fields.insert(0, 'subject', forms.CharField())
+                insertable_fields.insert(0, 'subject', forms.CharField())
                 if controller.subject_label:  # we're overriding the subject label
-                    self.fields['subject'].label = controller.subject_label
+                    insertable_fields['subject'].label = controller.subject_label
+
+            # Now cast back to an OrderedDict
+            # because we're done inserting.
+            self.fields = OrderedDict(insertable_fields)
 
             if controller.body_label:  # we're overriding the body label
                 self.fields['body'].label = controller.body_label
