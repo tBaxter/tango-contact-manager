@@ -1,6 +1,8 @@
 Tango Contact Manager
 =====
 
+[![Build Status](https://travis-ci.org/tBaxter/tango-contact-manager.svg?branch=master)](https://travis-ci.org/tBaxter/tango-contact-manager)
+
 Provides contact forms and any other sort of user submission form you might want. You can create new forms on the fly, straight from the admin.
 
 ## Key features
@@ -14,7 +16,7 @@ Provides contact forms and any other sort of user submission form you might want
 ##Installation:
 
     pip install tango-contact-manager
-or 
+or
     pip install git+https://github.com/tBaxter/tango-contact-manager.git
 
 
