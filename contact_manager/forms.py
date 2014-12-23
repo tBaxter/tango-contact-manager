@@ -39,16 +39,21 @@ class ContactForm(forms.ModelForm):
                     to_choices.append((r.name, r.email))
                 # if 'Create selectable list of recipients' is selected, add to form
                 if controller.email_options == '2':
-                    insertable_fields.insert(0, 'to', forms.ChoiceField(choices=to_choices))
+                    insertable_fields.insert(0, 'to')
 
             if controller.ask_for_subject:
-                insertable_fields.insert(0, 'subject', forms.CharField())
-                if controller.subject_label:  # we're overriding the subject label
-                    insertable_fields['subject'].label = controller.subject_label
+                insertable_fields.insert(0, 'subject')
 
             # Now cast back to an OrderedDict
             # because we're done inserting.
             self.fields = OrderedDict(insertable_fields)
+
+            # and now assign the values
+            self.fields['to'] = forms.ChoiceField(choices=to_choices)
+            self.fields['subject'] = forms.CharField()
+            if controller.subject_label:  # we're overriding the subject label
+                self.fields['subject'].label = controller.subject_label
+
 
             if controller.body_label:  # we're overriding the body label
                 self.fields['body'].label = controller.body_label
