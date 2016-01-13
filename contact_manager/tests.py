@@ -8,7 +8,7 @@ UserModel = get_user_model()
 
 
 class TestContactViews(TestCase):
-    fixtures = ['authtestdata.json', 'contact_form.json']
+    fixtures = ['auth_users.json', 'contact_form.json']
 
     def setUp(self):
         self.user = UserModel.objects.all()[0]
