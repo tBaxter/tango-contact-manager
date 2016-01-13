@@ -1,3 +1,9 @@
+### 0.8.0
+Support for Django 1.8+ and PEP-8 cleaning.
+
+### 0.7.0
+Tests and other improvements
+
 ### 0.6.8
 * Trying explicit logging key.
 

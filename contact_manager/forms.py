@@ -15,7 +15,16 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = ['sender_name', 'sender_email', 'body', 'send_a_copy', 'contact_address', 'contact_city', 'contact_state', 'contact_phone']
+        fields = [
+            'sender_name',
+            'sender_email',
+            'body',
+            'send_a_copy',
+            'contact_address',
+            'contact_city',
+            'contact_state',
+            'contact_phone'
+        ]
 
     def __init__(self, *args, **kwargs):
         #pick controller off before init

@@ -24,10 +24,17 @@ class TestContactViews(TestCase):
         self.assertTrue('form' in response.context)
         self.assertTrue('site' in response.context)
         form_fields = response.context['form'].fields
-        self.assertEquals(list(form_fields.keys()), ['sender_name', 'sender_email', 'body', 'send_a_copy', 'contact_address', 'contact_city', 'contact_state', 'contact_phone'])
+        self.assertEquals(
+            list(form_fields.keys()),
+            ['sender_name', 'sender_email', 'body', 'send_a_copy',
+                'contact_address', 'contact_city', 'contact_state', 'contact_phone']
+        )
         # because this is a simple form these fields should be hidden:
         hidden_fields = [k.name for k in response.context['form'].hidden_fields()]
-        self.assertEquals(hidden_fields, ['contact_address', 'contact_city', 'contact_state', 'contact_phone'])
+        self.assertEquals(
+            hidden_fields,
+            ['contact_address', 'contact_city', 'contact_state', 'contact_phone']
+        )
 
     def test_admin_contact_post(self):
         """
@@ -80,7 +87,9 @@ class TestContactViews(TestCase):
         """
         Test contact_form_builder
         """
-        response = self.client.get(reverse('contact_form_builder', args=['not-a-valid-controller-slug', ]))
+        response = self.client.get(
+            reverse('contact_form_builder', args=['not-a-valid-controller-slug', ])
+        )
         self.assertEqual(response.status_code, 404)
         contact_form_slug = ContactFormController.objects.get(id=1).slug
         response = self.client.get(reverse('contact_form_builder', args=[contact_form_slug, ]))

@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .models import Recipient, Contact, ContactFormController
 
+
 def publish_selected(modeladmin, request, queryset):
     rows_updated = queryset.update(publish=True)
     if rows_updated == 1:
@@ -63,7 +64,9 @@ class ContactFormControllerAdmin(admin.ModelAdmin):
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('sender_name', 'controller', 'subject', 'summary', 'submitted', 'has_photo', 'publish')
+    list_display = (
+        'sender_name', 'controller', 'subject', 'summary', 'submitted', 'has_photo', 'publish'
+    )
     # To-Do: add nuke_users to actions when it can be safely imported from tango_admin
     actions = [publish_selected, unpublish_selected]
     list_filter = ('publish', 'site', 'controller')

@@ -18,8 +18,8 @@ class Recipient(models.Model):
     A recipient is a pre-defined person who can be selected from a list to receive messages.
     Their email will not be exposed, so you must define both name and email address.
     """
-    name   = models.CharField('Recipient', max_length=200)
-    email  = models.EmailField('Routes to', max_length=200)
+    name = models.CharField('Recipient', max_length=200)
+    email = models.EmailField('Routes to', max_length=200)
 
     class Meta:
         ordering = ['name']
@@ -50,14 +50,12 @@ class ContactFormController(models.Model):
         UserModel,
         limit_choices_to={'is_staff': True},
         blank=True,
-        null=True,
         help_text="Select staffers the form should be emailed to. Optional.",
         verbose_name='Staff recipients'
     )
     other_recipients = models.ManyToManyField(
         Recipient,
         blank=True,
-        null=True,
         help_text="""
             If you want a recipient who isn't in the staff list,
             provide the info here.
@@ -103,7 +101,7 @@ class ContactFormController(models.Model):
         blank=True,
         help_text="""
             If you would like a custom message before the form, please give it here.
-            Optional. And remember, people know how to fill out a contact form. Just get to the point.
+            Optional. Remember, people know how to fill out a form. Just get to the point.
             """
     )
     limit_words = models.IntegerField(
@@ -144,7 +142,8 @@ class ContactFormController(models.Model):
         help_text="""
             Allows for customizing the subject field label. By default, it is "Subject".
             If you would like the label to read something else, such as "Title", enter it here.
-            Note: if you have overridden subject, the subject is not shown, and needs no subject label.
+            Note: if you have overridden the subject then the subject field is not shown.
+            Since it is not shown, you would not need or see a subject label.
             """)
     body_label = models.CharField(
         blank=True,

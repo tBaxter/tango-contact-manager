@@ -90,7 +90,7 @@ def simple_contact(request, username=""):
 
     if username:
         member = get_object_or_404(UserModel, username=username)
-        recipients = [member.email,]
+        recipients = [member.email, ]
         logger.debug('Recipients should be a single user: %s' % recipients)
 
     else:
@@ -103,12 +103,17 @@ def simple_contact(request, username=""):
 
         if not recipients:
             recipients = UserModel.objects.filter(is_superuser=True).values_list('email', flat=True)
-            warnings.warn("settings.DEFAULT_CONTACTS does not exist. You may want to create it.", RuntimeWarning)
+            warnings.warn(
+                "settings.DEFAULT_CONTACTS does not exist. You may want to create it.",
+                RuntimeWarning
+            )
             logger.debug('Recipients should be superusers: %s' % recipients)
 
     if form.is_valid():
         if site_form:
-            subject = "A {} contact form submission from {}".format(site.name, form.cleaned_data['sender_name'])
+            subject = "A {} contact form submission from {}".format(
+                site.name, form.cleaned_data['sender_name']
+            )
         else:
             subject = "A message from {} on {}".format(form.cleaned_data['sender_name'], site.name)
         body = form.cleaned_data['body']
@@ -120,10 +125,10 @@ def simple_contact(request, username=""):
             logger.debug('Recipients should be match prior + sender email: %s' % recipients)
 
         mail = EmailMessage(
-            subject = subject,
-            body = body,
-            from_email = sender_email,
-            to = recipients
+            subject=subject,
+            body=body,
+            from_email=sender_email,
+            to=recipients
         )
         mail.send()
         return HttpResponseRedirect(success_url)
@@ -187,7 +192,7 @@ def build_contact(request, slug=""):
 
             if controller.email_options == '2':  # Create selectable list from recipients
                 try:
-                    to = [UserModel.objects.get(username = form.cleaned_data['to']).email]
+                    to = [UserModel.objects.get(username=form.cleaned_data['to']).email]
                 except Exception:
                     to = [form.cleaned_data['to']]
 
@@ -200,10 +205,10 @@ def build_contact(request, slug=""):
                 to.append(form.cleaned_data['sender_email'])
 
             mail = EmailMessage(
-                subject = subject,
-                body = body,
-                from_email = form.cleaned_data['sender_email'],
-                to = to
+                subject=subject,
+                body=body,
+                from_email=form.cleaned_data['sender_email'],
+                to=to
             )
             if 'photo' in request.FILES:
                 photo = request.FILES['photo']
