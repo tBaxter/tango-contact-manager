@@ -1,0 +1,20 @@
+{% extends "contact/base.html" %}
+
+{% block title %}{{ message.sender_name }}{% endblock title %}
+
+{% block content %}
+  <h2 class="kicker">{{ message.sender_name }}</h2>
+  <h1>{{ message.subject }}</h1>
+
+  {% if message.contact_city or message.contact_state %}
+    <p class="meta">
+      {{ message.contact_city }} 
+      {{ message.contact_state }}
+    </p>
+  {% endif %}
+
+  {{ message.body_formatted }}
+
+  {% include 'includes/generic_pagination.html' %}
+
+{% endblock content %}
