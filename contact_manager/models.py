@@ -114,6 +114,7 @@ class ContactFormController(models.Model):
     )
     site = models.ForeignKey(
         Site,
+        on_delete=models.PROTECT,
         blank=True,
         null=True
     )
@@ -171,7 +172,10 @@ class Contact(models.Model):
     """
     The received message from the form.
     """
-    controller = models.ForeignKey(ContactFormController)
+    controller = models.ForeignKey(
+        ContactFormController,
+        on_delete=models.PROTECT
+    )
     sender_name = models.CharField(max_length=200)
     sender_email = models.EmailField(max_length=200)
     subject = models.CharField(
@@ -193,12 +197,17 @@ class Contact(models.Model):
     )
     user = models.ForeignKey(
         UserModel,
+        on_delete=models.PROTECT,
         editable=False,
         blank=True,
         null=True,
         help_text="In some cases, we may require submission from an authenticated user"
     )
-    site = models.ForeignKey(Site, default=settings.SITE_ID)
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.PROTECT,
+        default=settings.SITE_ID
+    )
     # if request_contact_info is True
     contact_address = models.TextField(
         blank=True,
