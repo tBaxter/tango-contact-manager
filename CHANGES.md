@@ -1,5 +1,5 @@
-### 0.8.1
-Added on_delete arguments for Django 2.0 compatibility
+### 0.9.0
+Updated for Django 2.0 compatibility
 
 ### 0.8.0
 Support for Django 1.8+ and PEP-8 cleaning.
