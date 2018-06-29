@@ -73,7 +73,7 @@ def simple_contact(request, username=""):
     logger.debug('Recipients should be empty: %s' % recipients)
 
     # if we know, fill in the user name and email
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         # first, resolve username for tango and non-tango sites
         try:
             name = request.user.display_name
@@ -147,7 +147,7 @@ def build_contact(request, slug=""):
     form = ContactForm(request.POST or None, request.FILES or None, controller=controller)
 
     # if we know, fill in the user name and email
-    if user.is_authenticated():
+    if user.is_authenticated:
         # first, resolve username for tango and non-tango sites
         try:
             name = user.display_name

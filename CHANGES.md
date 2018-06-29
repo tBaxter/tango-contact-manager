@@ -1,3 +1,6 @@
+### 0.9.1
+Corrected is_authenticated check
+
 ### 0.9.0
 Updated for Django 2.0 compatibility
 

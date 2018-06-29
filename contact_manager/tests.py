@@ -118,6 +118,6 @@ class TestContactViews(TestCase):
         response = self.client.get(reverse('contact_form_builder', args=[contact_form_slug, ]))
         self.assertEqual(response.status_code, 200)
         #form_dict = response.context['form'].__dict__
-        #self.assertTrue(response.context['user'].is_authenticated())
+        #self.assertTrue(response.context['user'].is_authenticated
         #self.assertEqual(form_dict['fields']['sender_name'].initial, self.username)
         #self.assertEqual(form_dict['fields']['sender_email'].initial, self.user.email)
