@@ -23,11 +23,12 @@ ROOT_URLCONF = 'contact_manager.urls'
 SITE_ID = 1
 
 #stripped down middleware
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-)
+    'django.contrib.messages.middleware.MessageMiddleware',
+]
 
 PAGINATE_BY = 20
