@@ -27,6 +27,7 @@ class ContactList(ListView):
     template_name = 'contact/message_list.html'
     paginate_by = settings.PAGINATE_BY
     queryset = Contact.objects.filter(publish=True, site__id=settings.SITE_ID).order_by('-id')
+contact_list = ContactList.as_view()
 
 
 class FormContacts(ContactList):
@@ -41,6 +42,7 @@ class FormContacts(ContactList):
     def get_queryset(self):
         queryset = super(FormContacts, self).get_queryset()
         return queryset.filter(controller__slug=self.controller_slug)
+form_contacts = FormContacts.as_view()
 
 
 class ContactDone(TemplateView):
@@ -48,6 +50,7 @@ class ContactDone(TemplateView):
     Returns simple thank you page after comment submission.
     """
     template_name = 'contact/done.html'
+contact_done = ContactDone.as_view()
 
 
 class ContactDetail(DetailView):
@@ -56,6 +59,7 @@ class ContactDetail(DetailView):
     """
     model = Contact
     template_name = 'contact/message_detail.html'
+contact_detail = ContactDetail.as_view()
 
 
 def simple_contact(request, username=""):

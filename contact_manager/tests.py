@@ -44,13 +44,20 @@ class TestContactViews(TestCase):
         response = self.client.post(form_url)
         self.assertEqual(response.status_code, 200)
 
-    def test_member_contact(self):
+    def test_invalid_user(self):
         """
-        Test simple member contact form
+        Test invalid user does not resolve
         """
-        response = self.client.get(reverse('member_contact_form', args=['invalid-username']))
+        invalid_user_url = reverse('member_contact_form', args=('invalid-username',))
+        response = self.client.get(invalid_user_url)
         self.assertEqual(response.status_code, 404)
-        response = self.client.get(reverse('member_contact_form', args=[self.username]))
+    
+    def test_valid_user(self):
+        """
+        Test valid user resolves with form
+        """
+        valid_user_url = reverse('member_contact_form', args=(self.username,))
+        response = self.client.get(valid_user_url)
         self.assertEqual(response.status_code, 200)
         self.assertTrue('form' in response.context)
         self.assertTrue('site' in response.context)
@@ -73,14 +80,15 @@ class TestContactViews(TestCase):
         response = self.client.get(reverse('controller_contact_list', args=[controller.slug]))
         self.assertEqual(response.status_code, 200)
 
-    def test_contact_detail(self):
-        """
-        Test contact_detail
-        """
-        response = self.client.get(reverse('contact_detail', args=[99999999999999]))
+    def test_invalid_contact_detail(self):
+        invalid_user_url = reverse('contact_detail', args=(99999999999999,))
+        response = self.client.get(invalid_user_url)
         self.assertEqual(response.status_code, 404)
+
+    def test_valid_contact_detail(self):
         contact = Contact.objects.get(id=1)
-        response = self.client.get(reverse('contact_detail', args=[contact.id]))
+        valid_user_url = reverse('contact_detail', args=(contact.id,))
+        response = self.client.get(valid_user_url)
         self.assertEqual(response.status_code, 200)
 
     def test_contact_builder(self):

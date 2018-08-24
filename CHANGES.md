@@ -1,3 +1,8 @@
+### 0.10.0
+Corrected URLs
+Updated tests
+Removed deprecated permalink
+
 ### 0.9.1
 Corrected is_authenticated check
 

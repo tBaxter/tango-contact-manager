@@ -1,1 +1,1 @@
-tango-shared-core>=0.9
+tango-shared-core>=0.10

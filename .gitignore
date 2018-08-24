@@ -3,6 +3,12 @@
 
 *.pyc
 
+dist/
+
+build/
+
+/build/
+
 tango_contact_manager.egg-info/PKG-INFO
 
 tango_contact_manager.egg-info/SOURCES.txt
