@@ -44,13 +44,20 @@ class TestContactViews(TestCase):
         response = self.client.post(form_url)
         self.assertEqual(response.status_code, 200)
 
-    def test_member_contact(self):
+    def test_invalid_user(self):
         """
-        Test simple member contact form
+        Test invalid user does not resolve
         """
-        response = self.client.get(reverse('member_contact_form', args=['invalid-username']))
+        invalid_user_url = reverse('member_contact_form', args=('invalid-username',))
+        response = self.client.get(invalid_user_url)
         self.assertEqual(response.status_code, 404)
-        response = self.client.get(reverse('member_contact_form', args=[self.username]))
+    
+    def test_valid_user(self):
+        """
+        Test valid user resolves with form
+        """
+        valid_user_url = reverse('member_contact_form', args=(self.username,))
+        response = self.client.get(valid_user_url)
         self.assertEqual(response.status_code, 200)
         self.assertTrue('form' in response.context)
         self.assertTrue('site' in response.context)
