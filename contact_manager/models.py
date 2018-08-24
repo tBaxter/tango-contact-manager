@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import truncatewords
+from django.urls import reverse
 
 from tango_shared.utils.sanetize import sanetize_text
 
@@ -160,12 +161,12 @@ class ContactFormController(models.Model):
     class Meta:
         verbose_name = "contact form controller"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('contact_form_builder', [self.slug])
+        return reverse('contact_form_builder', args=(self.slug,))
+
 
 
 class Contact(models.Model):
@@ -229,12 +230,11 @@ class Contact(models.Model):
         verbose_name = "submitted content"
         verbose_name_plural = "submitted content"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.subject
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('contact_detail', [str(self.id)])
+        return reverse('contact_detail', args=(self.id,))
 
     def save(self, *args, **kwargs):
         """
